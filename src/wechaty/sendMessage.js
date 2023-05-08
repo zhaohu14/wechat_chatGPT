@@ -23,15 +23,17 @@ export async function defaultMessage(msg, bot) {
   const isAlias = aliasWhiteList.includes(remarkName) || aliasWhiteList.includes(name) // 发消息的人是否在联系人白名单内
   const isBotSelf = botName === remarkName || botName === name // 是否是机器人自己
   // TODO 你们可以根据自己的需求修改这里的逻辑
-  console.log(contact, receiver, content, alias, remarkName, name, isText, isRoom, isBotSelf, name)
-  if (isText && !isBotSelf) {
+  // console.log(contact, receiver, content, alias, remarkName, name, isText, isRoom, isBotSelf, name)
+  // if (isText && !isBotSelf) {
+  if (isText) {
     console.log(JSON.stringify(msg))
-    if ((Date.now() - 1e3 * msg.payload.timestamp) > 3000) return 
+    // if ((Date.now() - 1e3 * msg.payload.timestamp) > 3000) return 
     // if (!content.startsWith('? ') && !content.startsWith('？ ') && !content.startsWith('> ')) return 
     try {
-      const trimed = content.substr(2)
+      const trimed = content
       console.log(trimed, '222')
-      if (trimed.length < 5) return 
+      console.log(isAlias, !room)
+      // if (trimed.length < 5) return 
       
       // 区分群聊和私聊
       if (isRoom && room) {
@@ -39,7 +41,10 @@ export async function defaultMessage(msg, bot) {
         return
       }
       // 私人聊天，白名单内的直接发送
-      if (isAlias && !room) {
+      // if (isAlias && !room) {
+      //   await contact.say(await getReply(trimed))
+      // }
+      if (true && !room) { // 测试
         await contact.say(await getReply(trimed))
       }
     } catch (e) {
